@@ -247,20 +247,19 @@
     .inner-sub { font-size:0.65rem; letter-spacing:3px; text-transform:uppercase; color:var(--red); font-weight:600; margin-left:auto; }
 
     .inner-grid {
+      columns:4;
+      column-gap:0.5rem;
       padding:2rem 5rem;
       max-width:1200px;
       margin:0 auto;
     }
-    .grid-sizer { width:25%; }
     .inner-grid-item {
-      width:25%;
-      padding:0.25rem;
+      break-inside:avoid;
+      margin-bottom:0.5rem;
       overflow:hidden;
       cursor:pointer;
       position:relative;
       display:block;
-      float:left;
-      box-sizing:border-box;
     }
     .inner-grid-item img {
       width:100%; height:auto;
@@ -452,8 +451,7 @@
       .section, .section-white, .section-dark { padding:3rem 1.5rem; }
 
       /* GALERÍA INTERNA MÓVIL */
-      .inner-grid { padding:1rem 1.5rem; }
-      .grid-sizer, .inner-grid-item { width:50%; }
+      .inner-grid { columns:2; column-gap:0.4rem; padding:1rem 1.5rem; }
       .inner-header { padding:0 1rem; gap:1rem; }
       .inner-title { font-size:1.2rem; }
       .inner-sub { display:none; }
@@ -462,8 +460,6 @@
       .lightbox-arrow { padding:1rem 0.7rem; }
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/5.0.0/imagesloaded.pkgd.min.js"></script>
 </head>
 <body>
 
@@ -505,7 +501,7 @@
       </div>
     </div>
     <div class="hero-photo">
-      <img src="fotos/hero/portada.jpg" alt="Sofía Monroy">
+      <img src="hero/portada.jpg" alt="Sofía Monroy">
     </div>
   </section>
 
@@ -518,7 +514,7 @@
     <div class="grid">
 
       <div class="grid-item featured" onclick="openCategory('liga-betplay')">
-        <img src="fotos/liga-betplay/portada.jpg" alt="Liga BetPlay">
+        <img src="liga-betplay/portada.jpg" alt="Liga BetPlay">
         <span class="grid-title-static">LIGA BETPLAY</span>
         <div class="grid-overlay">
           <div class="grid-title-hover">Liga BetPlay</div>
@@ -527,7 +523,7 @@
       </div>
 
       <div class="grid-item" onclick="openCategory('close-up')">
-        <img src="fotos/close-up/portada.jpg" alt="Close-Up">
+        <img src="close-up/portada.jpg" alt="Close-Up">
         <span class="grid-title-static">CLOSE-UP</span>
         <div class="grid-overlay">
           <div class="grid-title-hover">Close-Up</div>
@@ -545,7 +541,7 @@
       </div>
 
       <div class="grid-item" onclick="openCategory('detalles')">
-        <img src="fotos/detalles/portada.jpg" alt="Detalles">
+        <img src="detalles/portada.jpg" alt="Detalles">
         <span class="grid-title-static">DETALLES</span>
         <div class="grid-overlay">
           <div class="grid-title-hover">Detalles</div>
@@ -554,7 +550,7 @@
       </div>
 
       <div class="grid-item" onclick="openCategory('liga-femenina')">
-        <img src="fotos/liga-femenina/portada.jpg" alt="Liga Femenina">
+        <img src="liga-femenina/portada.jpg" alt="Liga Femenina">
         <span class="grid-title-static">LIGA FEMENINA</span>
         <div class="grid-overlay">
           <div class="grid-title-hover">Liga Femenina</div>
@@ -761,18 +757,18 @@
     document.getElementById('inner-sub').textContent = data.sub;
 
     const grid = document.getElementById('inner-grid');
-    grid.innerHTML = '<div class="grid-sizer"></div><div style="width:100%;text-align:center;padding:3rem;color:#aaa;font-size:0.7rem;letter-spacing:3px;text-transform:uppercase;">Cargando...</div>';
+    grid.innerHTML = '<div style="grid-column:span 4;text-align:center;padding:3rem;color:#aaa;font-size:0.7rem;letter-spacing:3px;text-transform:uppercase;">Cargando...</div>';
     document.getElementById('inner-page').classList.add('active');
     document.getElementById('inner-page').scrollTop = 0;
 
     const fotos = await cargarFotos();
     const archivos = fotos[cat] || [];
-    currentPhotos = archivos.map(f => `fotos/${cat}/${f}`);
+    currentPhotos = archivos.map(f => `${cat}/${f}`);
 
     grid.innerHTML = '';
 
     if(currentPhotos.length === 0) {
-      grid.innerHTML = '<div class="grid-sizer"></div><div style="width:100%;text-align:center;padding:4rem;color:#aaa;font-size:0.8rem;letter-spacing:3px;text-transform:uppercase;">Próximamente · Coming Soon</div>';
+      grid.innerHTML = '<div style="grid-column:span 4;text-align:center;padding:4rem;color:#aaa;font-size:0.8rem;letter-spacing:3px;text-transform:uppercase;">Próximamente · Coming Soon</div>';
     } else {
       currentPhotos.forEach((src, i) => {
         grid.innerHTML += `
